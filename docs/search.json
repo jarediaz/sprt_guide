@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Self Paced Reading Tasks",
+    "section": "",
+    "text": "Welcome! Thank you for your interest in the type template for Self Paced Reading Tasks on PCIBex.\nThis website is intended to serve as a guide to help users correctly modify the existing template and run their own experiments with little effort.\nReferences may be found in the reference portion of this website.\nTo begin this guide, please download the full template code located here.\n\n\n\n\n\n\nWarning\n\n\n\nThis guide is NOT comprehensive nor meant to teach the PCIBex framework."
+  },
+  {
+    "objectID": "index.html#stimuli-formatting",
+    "href": "index.html#stimuli-formatting",
+    "title": "Self Paced Reading Tasks",
+    "section": "Stimuli Formatting",
+    "text": "Stimuli Formatting\nLet’s start with a crucial part of the experiment: the file with the stimuli.\nPlease follow the formatting of the stimuli found in the Github Repository\nYou are free to add columns as you see fit for your experiment. However, it is recommended that you maintain the core layout seen in the stimuli linked above.\n\n\n\n\n\n\nRenaming Files\n\n\n\nIn order for the experiment to work, you must rename your .csv to Experiment.csv"
+  },
+  {
+    "objectID": "index.html#shuffle-sequencing",
+    "href": "index.html#shuffle-sequencing",
+    "title": "Self Paced Reading Tasks",
+    "section": "Shuffle Sequencing",
+    "text": "Shuffle Sequencing\nOur shuffle sequence can be seen below.\nvar shuffleSequence = \nseq(\"consent\", \"IDentry\", \"demo\", \"intro\",\n    \"startpractice\",\n                                            \n    seq(\"practice\"),\n                        \n    \"setcounter\",\n    \"starter\",\n\n    seq(rshuffle(startsWith(\"mklo\"), startsWith(\"gp\"), \n                 startsWith(\"Subjexp\"), startsWith(\"Objexp\"))),\n      \n    \"sendresults\",\n    \"completion\"\n);\nNow, assuming you have a properly formatted .csv, you can modify the shuffle sequence.\nTo make the sequence work for your experiment, please modify the labels inside the startsWith() function to correspond to the “cond1” column of your set of stimuli. Additionally, add or remove calls to startsWith() to work with your set of stimuli."
+  },
+  {
+    "objectID": "index.html#id-collection",
+    "href": "index.html#id-collection",
+    "title": "Self Paced Reading Tasks",
+    "section": "ID Collection",
+    "text": "ID Collection\nGreat! now our stimuli are set up. Now, let’s consider collecting participant ID.\nOur manner of ID collection can be seen below\nnewTrial(\"IDentry\",\n   newText(\"instr\", \"Please enter your Prolific ID:\").print(),\n\n   newHtml(\"partpage\", \"<input type='text' id='partID' name='participant ID' min='1' max='120'>\").print(),\n\n   newButton(\"Next\").print().wait(\n       getVar(\"partID\").set( v=>$(\"#partID\").val() ).testNot.is('')\n   )\n)\nYou should not change the underlying functionality of this ID collection. However, please adjust the instructions text and max / min participant IDs such that they work for your experiment."
+  },
+  {
+    "objectID": "index.html#consent-and-introduction",
+    "href": "index.html#consent-and-introduction",
+    "title": "Self Paced Reading Tasks",
+    "section": "Consent and Introduction",
+    "text": "Consent and Introduction\nTo change the text found in the consent and introduction sections of the experiment, please modify the files intro1.html and consent.html located in the chunk_includes directory.\nYou do not have to modify any of the HTML Tags if you do not wish to; changing the text only is sufficient."
+  },
+  {
+    "objectID": "index.html#adjusting-running-order",
+    "href": "index.html#adjusting-running-order",
+    "title": "Self Paced Reading Tasks",
+    "section": "Adjusting Running Order",
+    "text": "Adjusting Running Order\nFor clarity sake, the instructions for this portion will be outlined in comments found in the actual source code.\nIn the experiment, you will see a function with the following header:\n  function modifyRunningOrder(ro) {\n\n    var new_ro = [];\n    item_count=0;\n    for (var i in ro) {\n      var item = ro[i];\n      // fill in the relevant experimental condition names on the next line\n      // this is similar to what you had to do in the shuffle sequence\n      if (item[0].type.startsWith(\"mklo\")|| item[0].type.startsWith(\"gp\")\n            || item[0].type.startsWith(\"Subjexp\") || item[0].type.startsWith(\"Objexp\")) {\n          item_count++;\n          new_ro.push(item);\n        // first number after item count is how many items between breaks. second is total-items - 1\n          if (item_count%30===0 & item_count<86){\n         // value here should be total_items - items_per_block + blocks added (to trigger message that last block is coming up)\n              if (item_count===57 + 3){\n                  text=\"End of block. Only 1 block left!\";\n                  }\n              else {\n        // first number is the total number of blocks. second number is number of items per block\n                  text=\"End of block. \"+(3-(Math.floor(item_count/30)))+\" blocks left.\";\n              }ro[i].push(new DynamicElement(\"Message\", \n                                { html: \"<p>30-second break - stretch and look away from the screen briefly if needed.</p>\" + text, transfer: 30000 }));\n          }\n        } else {\n        new_ro.push(item);\n        }\n    }\n    return new_ro;\n  }\nPlease follow the instructions outlined by the comments (the grey text)\n\n\n\n\n\n\nTip\n\n\n\nAnd, you are done! If you wanted, you could be done writing code and have a fully functioning experiment on the PCIbex farm"
+  },
+  {
+    "objectID": "index.html#optional-changes",
+    "href": "index.html#optional-changes",
+    "title": "Self Paced Reading Tasks",
+    "section": "Optional Changes",
+    "text": "Optional Changes\nIf you are a more seasoned user of PCIBex, you could also consider making the following changes.\n\nRemoving Comprehension Questions\nComprehensions can be removed in a 2 step process.\nFirst, remove all relevant columns from your Experiment .csv\nSecondly, modify the Template call found in main.js in the data_includes directory by removing the following chunk of code.\nrow.comprehension_question ? \n            newController(\"QuestionAlt\", { \n                    as: [[\"f\", row.answerchoice0], [\"j\",row.answerchoice1]],\n                    // is expecting a Number, cast is necessary\n                    hasCorrect: Number(row.correct_response),\n                    q: row.comprehension_question,\n                    randomOrder: false,\n                    presentHorizontally: true\n\n\nChanging DashedSentenceAlt\nOur template uses a modified version of DashedSentence titled DashedSentenceAlt.\nIf some of the underlying functionality of this controller does not fit the needs of your experiment (say you wanted to use a different key to show words), consider modifying the source code of the controller.\nAdditionally, you may consider scrapping our alternate version of DashedSentence and making your own starting from the DashedSentence provided by PCIBex."
+  },
+  {
+    "objectID": "about.html#acknowledgements",
+    "href": "about.html#acknowledgements",
+    "title": "Self Paced Reading Tasks",
+    "section": "Acknowledgements",
+    "text": "Acknowledgements\nThis website and the corresponding template code was made as part of the project titled “Computational Psycholinguistics: Creating Online, Accessible Experiment Templates and Coding Standards” by Jared Diaz, supported by Lisa Levinson, PhD and the University of Michigan Undergraduate Research Opportunity Program.\nAdditionally, the framework PCIBex was created by the Zehr & Schwarz (University of Pennsylvania)."
+  },
+  {
+    "objectID": "about.html#citations",
+    "href": "about.html#citations",
+    "title": "Self Paced Reading Tasks",
+    "section": "Citations",
+    "text": "Citations\nZehr, J., & Schwarz, F. (2018). PennController for Internet Based Experiments (IBEX). https://doi.org/10.17605/OSF.IO/MD832"
+  }
+]

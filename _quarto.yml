@@ -1,0 +1,25 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Self Paced Reading Tasks"
+  
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: about.qmd
+        text: References
+
+format:
+  html:
+    theme: zephyr
+    css: styles.css
+    toc: true
+    highlight-style: github
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+
+editor: visual
+

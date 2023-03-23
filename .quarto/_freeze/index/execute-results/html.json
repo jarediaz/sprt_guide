@@ -1,0 +1,14 @@
+{
+  "hash": "378f72ccf22cca6b360313a49d2ab114",
+  "result": {
+    "markdown": "# Overview\n\nWelcome! Thank you for your interest in our project.\n\nThis website acts as a guide to understanding the PCIBex Template for Self Paced Reading Tasks. However, please note that this guide is not comprehensive. Instead, it seeks to emphasize the most crucial parts of the code such that users can modify and fill the template to run their own experiments. References may be found in the reference portion of this website.\n\n\n::: {.cell}\n\n```{.r .cell-code}\n1 + 1\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n[1] 2\n```\n:::\n:::\n\n\n``` javascript\nconsole.log(\"hello world\")\n```\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

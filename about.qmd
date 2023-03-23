@@ -1,0 +1,16 @@
+---
+title: ""
+---
+\
+
+## Acknowledgements
+
+This website and the corresponding template code was made as part of the project titled "Computational Psycholinguistics: Creating Online, Accessible Experiment Templates and Coding Standards" by Jared Diaz, supported by Lisa Levinson, PhD and the University of Michigan Undergraduate Research Opportunity Program.
+
+Additionally, the framework PCIBex was created by the Zehr & Schwarz (University of Pennsylvania).
+
+## Citations
+
+Zehr, J., & Schwarz, F. (2018). PennController for Internet Based Experiments (IBEX). https://doi.org/10.17605/OSF.IO/MD832
+
+
